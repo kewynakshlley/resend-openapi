@@ -364,6 +364,10 @@ paths:
       tags:
         - Domains
       summary: Retrieve a list of domains
+      parameters:
+        - $ref: '#/components/parameters/PaginationLimit'
+        - $ref: '#/components/parameters/PaginationAfter'
+        - $ref: '#/components/parameters/PaginationBefore'
       responses:
         '200':
           description: OK
@@ -1745,6 +1749,22 @@ components:
               id:
                 type: string
                 description: The ID of the sent email.
+    DomainCapabilities:
+      type: object
+      description: Configure the domain capabilities for sending and receiving emails. At least one capability must be enabled.
+      properties:
+        sending:
+          type: string
+          enum:
+            - enabled
+            - disabled
+          description: Enable or disable sending emails from this domain.
+        receiving:
+          type: string
+          enum:
+            - enabled
+            - disabled
+          description: Enable or disable receiving emails to this domain.
     CreateDomainRequest:
       type: object
       required:
@@ -1762,6 +1782,24 @@ components:
             - ap-northeast-1
           default: us-east-1
           description: The region where emails will be sent from. Possible values are us-east-1 | eu-west-1 | sa-east-1 | ap-northeast-1
+        custom_return_path:
+          type: string
+          description: For advanced use cases, choose a subdomain for the Return-Path address. Defaults to 'send' (i.e., send.yourdomain.tld).
+        open_tracking:
+          type: boolean
+          description: Track the open rate of each email.
+        click_tracking:
+          type: boolean
+          description: Track clicks within the body of each HTML email.
+        tls:
+          type: string
+          enum:
+            - opportunistic
+            - enforced
+          default: opportunistic
+          description: TLS mode. Opportunistic attempts secure connection but falls back to unencrypted. Enforced requires TLS or email won't be sent.
+        capabilities:
+          $ref: '#/components/schemas/DomainCapabilities'
     CreateDomainResponse:
       type: object
       properties:
@@ -1778,6 +1816,8 @@ components:
         status:
           type: string
           description: The status of the domain.
+        capabilities:
+          $ref: '#/components/schemas/DomainCapabilities'
         records:
           type: array
           items:
@@ -1864,6 +1904,8 @@ components:
           type: string
           description: The region where the domain is hosted.
           example: 'us-east-1'
+        capabilities:
+          $ref: '#/components/schemas/DomainCapabilities'
         records:
           type: array
           items:
@@ -1882,6 +1924,14 @@ components:
     ListDomainsResponse:
       type: object
       properties:
+        object:
+          type: string
+          description: Type of the response object.
+          example: 'list'
+        has_more:
+          type: boolean
+          description: Indicates if there are more results available.
+          example: false
         data:
           type: array
           items:
@@ -1910,6 +1960,8 @@ components:
           type: string
           description: The region where the domain is hosted.
           example: 'us-east-1'
+        capabilities:
+          $ref: '#/components/schemas/DomainCapabilities'
     UpdateDomainResponseSuccess:
       type: object
       properties:
