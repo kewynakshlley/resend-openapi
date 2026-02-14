@@ -3386,23 +3386,23 @@ components:
     CreateContactPropertyOptions:
       type: object
       required:
-        - name
+        - key
         - type
       properties:
-        name:
+        key:
           type: string
-          description: The name of the contact property.
+          description: The property key. Max length is 50 characters. Only alphanumeric characters and underscores are allowed.
         type:
           type: string
           enum:
             - string
             - number
-            - boolean
-            - date
-          description: The type of the contact property.
-        description:
-          type: string
-          description: A description of the contact property.
+          description: The property type.
+        fallback_value:
+          oneOf:
+            - type: string
+            - type: number
+          description: The default value to use when the property is not set for a contact. Must match the type specified in the type field.
     CreateContactPropertyResponseSuccess:
       type: object
       properties:
@@ -3417,25 +3417,28 @@ components:
     GetContactPropertyResponseSuccess:
       type: object
       properties:
-        id:
-          type: string
-          description: The ID of the contact property.
-          example: 78261eea-8f8b-4381-83c6-79fa7120f1cf
         object:
           type: string
           description: The object type.
           example: contact_property
-        name:
+        id:
           type: string
-          description: The name of the contact property.
-          example: company_size
+          description: The ID of the contact property.
+          example: b6d24b8e-af0b-4c3c-be0c-359bbd97381e
+        key:
+          type: string
+          description: The property key.
+          example: company_name
         type:
           type: string
-          description: The type of the contact property.
-          example: number
-        description:
-          type: string
-          description: A description of the contact property.
+          description: The property type.
+          example: string
+        fallback_value:
+          oneOf:
+            - type: string
+            - type: number
+          description: The default value when the property is not set for a contact.
+          example: Acme Corp
         created_at:
           type: string
           format: date-time
@@ -3459,15 +3462,17 @@ components:
               id:
                 type: string
                 description: Unique identifier for the contact property.
-              name:
+              key:
                 type: string
-                description: Name of the contact property.
+                description: The property key.
               type:
                 type: string
-                description: The type of the contact property.
-              description:
-                type: string
-                description: A description of the contact property.
+                description: The property type.
+              fallback_value:
+                oneOf:
+                  - type: string
+                  - type: number
+                description: The default value when the property is not set for a contact.
               created_at:
                 type: string
                 format: date-time
@@ -3475,12 +3480,11 @@ components:
     UpdateContactPropertyOptions:
       type: object
       properties:
-        name:
-          type: string
-          description: The name of the contact property.
-        description:
-          type: string
-          description: A description of the contact property.
+        fallback_value:
+          oneOf:
+            - type: string
+            - type: number
+          description: The default value to use when the property is not set for a contact. Must match the type of the property.
     UpdateContactPropertyResponseSuccess:
       type: object
       properties:
