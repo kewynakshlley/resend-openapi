@@ -2092,12 +2092,37 @@ components:
           example: Wozniak
         unsubscribed:
           type: boolean
-          description: Indicates if the contact is unsubscribed.
+          description: The Contact's global subscription status. If set to true, the contact will be unsubscribed from all Broadcasts.
           example: false
+        properties:
+          type: object
+          additionalProperties: true
+          description: A map of custom property keys and values to create.
+        segments:
+          type: array
+          items:
+            type: string
+          description: Array of segment IDs to add the contact to.
+        topics:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: The topic ID.
+              subscription:
+                type: string
+                enum:
+                  - opt_in
+                  - opt_out
+                description: The subscription status for this topic.
+          description: Array of topic subscriptions for the contact.
         audience_id:
           type: string
           description: Unique identifier of the audience to which the contact belongs.
           example: 78261eea-8f8b-4381-83c6-79fa7120f1cf
+          deprecated: true
     CreateContactResponseSuccess:
       type: object
       properties:
@@ -2141,6 +2166,10 @@ components:
           type: boolean
           description: Indicates if the contact is unsubscribed.
           example: false
+        properties:
+          type: object
+          additionalProperties: true
+          description: A map of custom property keys and values.
     UpdateContactOptions:
       type: object
       properties:
@@ -2158,8 +2187,12 @@ components:
           example: Wozniak
         unsubscribed:
           type: boolean
-          description: Indicates the subscription status of the contact.
+          description: The Contact's global subscription status. If set to true, the contact will be unsubscribed from all Broadcasts.
           example: false
+        properties:
+          type: object
+          additionalProperties: true
+          description: A map of custom property keys and values to update.
     UpdateContactResponseSuccess:
       type: object
       properties:
@@ -3625,9 +3658,15 @@ components:
               name:
                 type: string
                 description: Name of the topic.
-              subscribed:
-                type: boolean
-                description: Indicates if the contact is subscribed to this topic.
+              description:
+                type: string
+                description: Description of the topic.
+              subscription:
+                type: string
+                enum:
+                  - opt_in
+                  - opt_out
+                description: The subscription status for this topic.
     UpdateContactTopicsOptions:
       type: object
       required:
@@ -3641,9 +3680,12 @@ components:
               id:
                 type: string
                 description: The ID of the topic.
-              subscribed:
-                type: boolean
-                description: Whether to subscribe or unsubscribe from the topic.
+              subscription:
+                type: string
+                enum:
+                  - opt_in
+                  - opt_out
+                description: The subscription status (opt_in or opt_out).
     UpdateContactTopicsResponseSuccess:
       type: object
       properties:
@@ -3663,6 +3705,9 @@ components:
               id:
                 type: string
                 description: The ID of the topic.
-              subscribed:
-                type: boolean
+              subscription:
+                type: string
+                enum:
+                  - opt_in
+                  - opt_out
                 description: The subscription status.
