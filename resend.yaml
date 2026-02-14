@@ -906,6 +906,10 @@ paths:
       tags:
         - Broadcasts
       summary: Retrieve a list of broadcasts
+      parameters:
+        - $ref: '#/components/parameters/PaginationLimit'
+        - $ref: '#/components/parameters/PaginationAfter'
+        - $ref: '#/components/parameters/PaginationBefore'
       responses:
         '200':
           description: OK
@@ -2258,6 +2262,9 @@ components:
         text:
           type: string
           description: The plain text version of the message.
+        topic_id:
+          type: string
+          description: The topic ID that the broadcast will be scoped to.
         send:
           type: boolean
           description: |
@@ -2284,6 +2291,10 @@ components:
           type: string
           description: Type of the response object.
           example: list
+        has_more:
+          type: boolean
+          description: Indicates if there are more results available.
+          example: false
         data:
           type: array
           description: Array containing broadcast information.
@@ -2300,7 +2311,12 @@ components:
                 example: November announcements
               audience_id:
                 type: string
-                description: Unique identifier of the audience this broadcast will be sent to.
+                description: Deprecated. Use segment_id instead.
+                example: 78261eea-8f8b-4381-83c6-79fa7120f1cf
+                deprecated: true
+              segment_id:
+                type: string
+                description: Unique identifier of the segment this broadcast will be sent to.
                 example: 78261eea-8f8b-4381-83c6-79fa7120f1cf
               status:
                 type: string
@@ -2321,6 +2337,10 @@ components:
                 format: date-time
                 description: Timestamp indicating when the broadcast was sent.
                 example: "2023-10-06T22:59:55.977Z"
+              topic_id:
+                type: string
+                description: The topic ID that the broadcast is scoped to.
+                example: b6d24b8e-af0b-4c3c-be0c-359bbd97381e
     GetBroadcastResponseSuccess:
       type: object
       properties:
@@ -2387,6 +2407,11 @@ components:
           nullable: true
           description: The HTML version of the broadcast content.
           example: '<p>Hello {{{FIRST_NAME|there}}}!</p>'
+        topic_id:
+          type: string
+          nullable: true
+          description: The topic ID that the broadcast is scoped to.
+          example: b6d24b8e-af0b-4c3c-be0c-359bbd97381e
     UpdateBroadcastOptions:
       type: object
       properties:
@@ -2419,6 +2444,9 @@ components:
         text:
           type: string
           description: The plain text version of the message.
+        topic_id:
+          type: string
+          description: The topic ID that the broadcast will be scoped to.
     UpdateBroadcastResponseSuccess:
       type: object
       properties:
