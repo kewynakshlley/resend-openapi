@@ -471,6 +471,10 @@ paths:
       tags:
         - API Keys
       summary: Retrieve a list of API keys
+      parameters:
+        - $ref: '#/components/parameters/PaginationLimit'
+        - $ref: '#/components/parameters/PaginationAfter'
+        - $ref: '#/components/parameters/PaginationBefore'
       responses:
         '200':
           description: OK
@@ -1957,6 +1961,14 @@ components:
     ListApiKeysResponse:
       type: object
       properties:
+        object:
+          type: string
+          description: Type of the response object.
+          example: 'list'
+        has_more:
+          type: boolean
+          description: Indicates if there are more results available.
+          example: false
         data:
           type: array
           items:
