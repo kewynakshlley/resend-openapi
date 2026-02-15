@@ -3394,10 +3394,26 @@ components:
       properties:
         name:
           type: string
-          description: The name of the topic.
+          description: The topic name. Max length is 50 characters.
         audience_id:
           type: string
           description: The ID of the audience this topic belongs to.
+        default_subscription:
+          type: string
+          enum:
+            - opt_in
+            - opt_out
+          description: The default subscription preference for new contacts. This value cannot be changed later.
+        description:
+          type: string
+          description: The topic description. Max length is 200 characters.
+        visibility:
+          type: string
+          enum:
+            - public
+            - private
+          default: private
+          description: The visibility of the topic on the unsubscribe page. Private means only contacts who are opted in can see it. Public means all contacts can see it.
     CreateTopicResponseSuccess:
       type: object
       properties:
@@ -3465,7 +3481,16 @@ components:
       properties:
         name:
           type: string
-          description: The name of the topic.
+          description: The topic name. Max length is 50 characters.
+        description:
+          type: string
+          description: The topic description. Max length is 200 characters.
+        visibility:
+          type: string
+          enum:
+            - public
+            - private
+          description: The visibility of the topic on the unsubscribe page. Private means only contacts who are opted in can see it. Public means all contacts can see it.
     UpdateTopicResponseSuccess:
       type: object
       properties:
