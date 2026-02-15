@@ -382,6 +382,27 @@ paths:
       tags:
         - Domains
       summary: Retrieve a list of domains
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+          description: Number of domains to retrieve.
+        - name: after
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Pagination cursor to fetch results after this domain ID. Cannot be used with 'before'.
+        - name: before
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Pagination cursor to fetch results before this domain ID. Cannot be used with 'after'.
       responses:
         '200':
           description: OK
@@ -489,6 +510,27 @@ paths:
       tags:
         - API Keys
       summary: Retrieve a list of API keys
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+          description: Number of API keys to retrieve.
+        - name: after
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Pagination cursor to fetch results after this API key ID. Cannot be used with 'before'.
+        - name: before
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Pagination cursor to fetch results before this API key ID. Cannot be used with 'after'.
       responses:
         '200':
           description: OK
@@ -662,6 +704,27 @@ paths:
       tags:
         - Audiences
       summary: Retrieve a list of audiences
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+          description: Number of audiences to retrieve.
+        - name: after
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Pagination cursor to fetch results after this audience ID. Cannot be used with 'before'.
+        - name: before
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Pagination cursor to fetch results before this audience ID. Cannot be used with 'after'.
       responses:
         '200':
           description: OK
@@ -741,6 +804,26 @@ paths:
           schema:
             type: string
           description: The Audience ID.
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+          description: Number of contacts to retrieve.
+        - name: after
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Pagination cursor to fetch results after this contact ID. Cannot be used with 'before'.
+        - name: before
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Pagination cursor to fetch results before this contact ID. Cannot be used with 'after'.
       responses:
         '200':
           description: OK
@@ -899,6 +982,121 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetContactResponseSuccess'
+  /contacts:
+    post:
+      tags:
+        - Contacts
+      summary: Create a new contact
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateContactOptions'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateContactResponseSuccess'
+    get:
+      tags:
+        - Contacts
+      summary: Retrieve a list of contacts
+      parameters:
+        - name: segment_id
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The Segment ID to filter contacts by. If provided, only contacts in this Segment will be returned.
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+          description: Number of contacts to retrieve.
+        - name: after
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Pagination cursor to fetch results after this contact ID. Cannot be used with 'before'.
+        - name: before
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Pagination cursor to fetch results before this contact ID. Cannot be used with 'after'.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListContactsResponseSuccess'
+  /contacts/{id}:
+    get:
+      tags:
+        - Contacts
+      summary: Retrieve a single contact by ID or email
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The Contact ID or email.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetContactResponseSuccess'
+    patch:
+      tags:
+        - Contacts
+      summary: Update a single contact by ID or email
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The Contact ID or email.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateContactOptions'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateContactResponseSuccess'
+    delete:
+      tags:
+        - Contacts
+      summary: Remove an existing contact by ID or email
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The Contact ID or email.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RemoveContactResponseSuccess'
   /contacts/{contact_id}/segments/{segment_id}:
     post:
       tags:
@@ -1070,6 +1268,27 @@ paths:
       tags:
         - Broadcasts
       summary: Retrieve a list of broadcasts
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+          description: Number of broadcasts to retrieve.
+        - name: after
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Pagination cursor to fetch results after this broadcast ID. Cannot be used with 'before'.
+        - name: before
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Pagination cursor to fetch results before this broadcast ID. Cannot be used with 'after'.
       responses:
         '200':
           description: OK
@@ -1114,6 +1333,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetBroadcastResponseSuccess'
+    patch:
+      tags:
+        - Broadcasts
+      summary: Update an existing broadcast
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The Broadcast ID.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBroadcastOptions'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateBroadcastResponseSuccess'
   /broadcasts/{id}/send:
     post:
       tags:
@@ -1138,29 +1380,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SendBroadcastResponseSuccess'
-    patch:
-      tags:
-        - Broadcasts
-      summary: Update an existing broadcast
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The Broadcast ID.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateBroadcastOptions'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UpdateBroadcastResponseSuccess'
   /webhooks:
     post:
       tags:
@@ -1627,13 +1846,25 @@ components:
           type: string
           description: Email subject.
         bcc:
-          type: string
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
           description: Bcc recipient email address. For multiple addresses, send as an array of strings.
         cc:
-          type: string
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
           description: Cc recipient email address. For multiple addresses, send as an array of strings.
         reply_to:
-          type: string
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
           description: Reply-to email address. For multiple addresses, send as an array of strings.
         html:
           type: string
@@ -1642,7 +1873,8 @@ components:
           type: string
           description: The plain text version of the message.
         template:
-          $ref: '#/components/schemas/EmailTemplateInput'
+          allOf:
+            - $ref: '#/components/schemas/EmailTemplateInput'
           description: Use a published template to send the email. If provided, do not include html or text.
         headers:
           type: object
@@ -1658,6 +1890,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Tag'
+        topic_id:
+          type: string
+          description: The topic ID to scope the email to. Only contacts that are opted in to this topic will receive the email.
     Attachment:
       type: object
       properties:
@@ -1674,6 +1909,9 @@ components:
         content_type:
           type: string
           description: Optional content type for the attachment, if not set it will be derived from the filename property
+        cid:
+          type: string
+          description: Content ID for embedding images inline using cid:content_id in the img src attribute.
     Tag:
       type: object
       properties:
@@ -1769,6 +2007,15 @@ components:
           type: string
           description: The status of the email.
           example: 'delivered'
+        scheduled_at:
+          type: string
+          format: date-time
+          description: The date and time the email is scheduled to be sent.
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          description: Custom data passed in key/value pairs.
     CreateBatchEmailsResponse:
       type: object
       properties:
@@ -1797,6 +2044,37 @@ components:
             - ap-northeast-1
           default: us-east-1
           description: The region where emails will be sent from. Possible values are us-east-1 | eu-west-1 | sa-east-1 | ap-northeast-1
+        custom_return_path:
+          type: string
+          description: For advanced use cases, choose a subdomain for the Return-Path address. The custom return path is used for SPF authentication, DMARC alignment, and handling bounced emails. Defaults to send (i.e., send.yourdomain.tld).
+        open_tracking:
+          type: boolean
+          description: Track the open rate of each email.
+        click_tracking:
+          type: boolean
+          description: Track clicks within the body of each HTML email.
+        tls:
+          type: string
+          enum:
+            - opportunistic
+            - enforced
+          description: TLS encryption setting. Opportunistic attempts secure connection but falls back to unencrypted. Enforced requires TLS or the email will not be sent.
+        capabilities:
+          type: object
+          description: Configure the domain capabilities for sending and receiving emails. At least one capability must be enabled.
+          properties:
+            sending:
+              type: string
+              enum:
+                - enabled
+                - disabled
+              description: Enable or disable sending emails from this domain.
+            receiving:
+              type: string
+              enum:
+                - enabled
+                - disabled
+              description: Enable or disable receiving emails to this domain.
     CreateDomainResponse:
       type: object
       properties:
@@ -1903,6 +2181,22 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DomainRecord'
+        capabilities:
+          type: object
+          description: The domain capabilities for sending and receiving emails.
+          properties:
+            sending:
+              type: string
+              enum:
+                - enabled
+                - disabled
+              description: Whether sending emails from this domain is enabled.
+            receiving:
+              type: string
+              enum:
+                - enabled
+                - disabled
+              description: Whether receiving emails to this domain is enabled.
     VerifyDomainResponse:
       type: object
       properties:
@@ -2121,10 +2415,38 @@ components:
           type: boolean
           description: Indicates if the contact is unsubscribed.
           example: false
+        segment_id:
+          type: string
+          description: Optional segment ID to add the contact to.
         audience_id:
           type: string
           description: Unique identifier of the audience to which the contact belongs.
           example: 78261eea-8f8b-4381-83c6-79fa7120f1cf
+        properties:
+          type: object
+          description: A map of custom property keys and values to create.
+          additionalProperties:
+            type: string
+        segments:
+          type: array
+          description: Array of segment IDs to add the contact to.
+          items:
+            type: string
+        topics:
+          type: array
+          description: Array of topic subscriptions for the contact.
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: The topic ID.
+              status:
+                type: string
+                enum:
+                  - opt_in
+                  - opt_out
+                description: The subscription status for this topic.
     CreateContactResponseSuccess:
       type: object
       properties:
@@ -2168,6 +2490,11 @@ components:
           type: boolean
           description: Indicates if the contact is unsubscribed.
           example: false
+        properties:
+          type: object
+          description: A map of custom property keys and values.
+          additionalProperties:
+            type: string
     UpdateContactOptions:
       type: object
       properties:
@@ -2187,6 +2514,11 @@ components:
           type: boolean
           description: Indicates the subscription status of the contact.
           example: false
+        properties:
+          type: object
+          description: A map of custom property keys and values to update.
+          additionalProperties:
+            type: string
     UpdateContactResponseSuccess:
       type: object
       properties:
@@ -2254,27 +2586,32 @@ components:
     CreateBroadcastOptions:
       type: object
       required:
-        - audience_id
         - from
         - subject
       properties:
         name:
           type: string
-          description: Name of the broadcast.
+          description: The friendly name of the broadcast. Only used for internal reference.
         audience_id:
           type: string
-          description: Unique identifier of the audience this broadcast will be sent to.
+          description: The ID of the audience you want to send to. Deprecated, use segment_id instead.
+          deprecated: true
+        segment_id:
+          type: string
+          description: The ID of the segment you want to send to.
         from:
           type: string
-          description: The email address of the sender.
+          description: Sender email address. To include a friendly name, use the format "Your Name <sender@domain.com>".
         subject:
           type: string
-          description: The subject line of the email.
+          description: Email subject.
         reply_to:
-          type: array
-          items:
-            type: string
-          description: The email addresses to which replies should be sent.
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+          description: Reply-to email address. For multiple addresses, send as an array of strings.
         preview_text:
           type: string
           description: The preview text of the email.
@@ -2285,6 +2622,16 @@ components:
         text:
           type: string
           description: The plain text version of the message.
+        topic_id:
+          type: string
+          description: The topic ID that the broadcast will be scoped to.
+        send:
+          type: boolean
+          description: Send the broadcast immediately after creation. Defaults to false.
+          default: false
+        scheduled_at:
+          type: string
+          description: Schedule the broadcast to be sent later. The date should be in natural language (e.g. "in 1 min") or ISO 8601 format. Requires send to be true.
     CreateBroadcastResponseSuccess:
       type: object
       properties:
@@ -2319,7 +2666,12 @@ components:
                 example: November announcements
               audience_id:
                 type: string
-                description: Unique identifier of the audience this broadcast will be sent to.
+                description: Unique identifier of the audience this broadcast will be sent to. Deprecated, use segment_id instead.
+                example: 78261eea-8f8b-4381-83c6-79fa7120f1cf
+                deprecated: true
+              segment_id:
+                type: string
+                description: The ID of the segment this broadcast will be sent to.
                 example: 78261eea-8f8b-4381-83c6-79fa7120f1cf
               status:
                 type: string
@@ -2340,6 +2692,9 @@ components:
                 format: date-time
                 description: Timestamp indicating when the broadcast was sent.
                 example: "2023-10-06T22:59:55.977Z"
+              topic_id:
+                type: string
+                description: The topic ID that the broadcast is scoped to.
     GetBroadcastResponseSuccess:
       type: object
       properties:
@@ -2353,7 +2708,11 @@ components:
           example: November announcements
         audience_id:
           type: string
-          description: Unique identifier of the audience this broadcast will be sent to.
+          description: Unique identifier of the audience this broadcast will be sent to. Deprecated, use segment_id instead.
+          deprecated: true
+        segment_id:
+          type: string
+          description: The ID of the segment this broadcast will be sent to.
         from:
           type: string
           description: The email address of the sender.
@@ -2371,6 +2730,12 @@ components:
           type: string
           description: The preview text of the email.
           example: 'Here are our announcements'
+        html:
+          type: string
+          description: The HTML version of the message.
+        text:
+          type: string
+          description: The plain text version of the message.
         status:
           type: string
           description: The status of the broadcast.
@@ -2390,6 +2755,9 @@ components:
           format: date-time
           description: Timestamp indicating when the broadcast was sent.
           example: "2023-10-06T22:59:55.977Z"
+        topic_id:
+          type: string
+          description: The topic ID that the broadcast is scoped to.
     RemoveBroadcastResponseSuccess:
       type: object
       properties:
@@ -2426,7 +2794,11 @@ components:
           description: Name of the broadcast.
         audience_id:
           type: string
-          description: Unique identifier of the audience this broadcast will be sent to.
+          description: Unique identifier of the audience this broadcast will be sent to. Deprecated, use segment_id instead.
+          deprecated: true
+        segment_id:
+          type: string
+          description: The ID of the segment you want to send to.
         from:
           type: string
           description: The email address of the sender.
@@ -2434,10 +2806,12 @@ components:
           type: string
           description: The subject line of the email.
         reply_to:
-          type: array
-          items:
-            type: string
-          description: The email addresses to which replies should be sent.
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+          description: Reply-to email address. For multiple addresses, send as an array of strings.
         preview_text:
           type: string
           description: The preview text of the email.
@@ -2931,6 +3305,7 @@ components:
             - type: boolean
             - type: object
             - type: array
+              items: {}
         created_at:
           type: string
           format: date-time
@@ -2960,6 +3335,7 @@ components:
             - type: boolean
             - type: object
             - type: array
+              items: {}
       required:
         - key
         - type
@@ -3508,16 +3884,21 @@ components:
         key:
           type: string
           description: The property key. Max length is 50 characters. Only alphanumeric characters and underscores are allowed.
+        display_name:
+          type: string
+          description: The display name for the property.
         type:
           type: string
           enum:
             - string
             - number
+            - boolean
           description: The property type.
         fallback_value:
           oneOf:
             - type: string
             - type: number
+            - type: boolean
           description: The default value to use when the property is not set for a contact. Must match the type specified in the type field.
     CreateContactPropertyResponseSuccess:
       type: object
@@ -3550,12 +3931,14 @@ components:
           enum:
             - string
             - number
+            - boolean
           description: The property type.
           example: 'string'
         fallback_value:
           oneOf:
             - type: string
             - type: number
+            - type: boolean
           nullable: true
           description: The default value for the property.
           example: 'Acme Corp'
@@ -3599,12 +3982,14 @@ components:
                 enum:
                   - string
                   - number
+                  - boolean
                 description: The property type.
                 example: 'string'
               fallback_value:
                 oneOf:
                   - type: string
                   - type: number
+                  - type: boolean
                 nullable: true
                 description: The default value for the property.
                 example: 'Acme Corp'
@@ -3625,6 +4010,7 @@ components:
           oneOf:
             - type: string
             - type: number
+            - type: boolean
           description: The default value to use when the property is not set for a contact. Must match the type of the property.
     UpdateContactPropertyResponseSuccess:
       type: object
@@ -3746,49 +4132,27 @@ components:
                 description: Timestamp indicating when the topic was created.
                 example: '2023-04-08T00:11:13.110779+00:00'
     UpdateContactTopicsOptions:
-      type: object
-      required:
-        - topics
-      properties:
-        topics:
-          type: array
-          description: Array of topic subscription updates.
-          items:
-            type: object
-            required:
-              - id
-              - subscription
-            properties:
-              id:
-                type: string
-                description: The Topic ID.
-              subscription:
-                type: string
-                enum:
-                  - opt_in
-                  - opt_out
-                description: The subscription action.
+      type: array
+      description: Array of topic subscription updates.
+      items:
+        type: object
+        required:
+          - id
+          - subscription
+        properties:
+          id:
+            type: string
+            description: The Topic ID.
+          subscription:
+            type: string
+            enum:
+              - opt_in
+              - opt_out
+            description: The subscription action.
     UpdateContactTopicsResponseSuccess:
       type: object
       properties:
-        object:
+        id:
           type: string
-          description: Type of the response object.
-          example: list
-        data:
-          type: array
-          description: Array containing updated topic subscriptions.
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                description: The ID of the topic.
-                example: 'b6d24b8e-af0b-4c3c-be0c-359bbd97381e'
-              subscription:
-                type: string
-                enum:
-                  - opt_in
-                  - opt_out
-                description: The subscription status.
-                example: 'opt_out'
+          description: The ID of the contact.
+          example: 'e169aa45-1ecf-4183-9955-b1499d5701d3'
